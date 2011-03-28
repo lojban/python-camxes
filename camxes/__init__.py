@@ -1,5 +1,9 @@
+from os import path
 from subprocess import Popen, PIPE
 from lepl import *
+
+
+JARFILE = path.join(path.dirname(__file__), 'camxes.jar')
 
 
 def named_node(args):
@@ -22,7 +26,8 @@ procs = {}
 
 def camxes(arg, input):
     if arg not in procs or procs[arg] is None:
-        procs[arg] = Popen(['camxes', arg], stdout=PIPE, stdin=PIPE)
+        procs[arg] = Popen(['java', '-jar', JARFILE, arg],
+                           stdout=PIPE, stdin=PIPE)
         procs[arg].stdout.readline()
     procs[arg].stdin.write((input + '\n').encode('utf-8'))
     procs[arg].stdin.flush()
