@@ -1,5 +1,7 @@
 from os import path
+from fnmatch import fnmatch
 from subprocess import Popen, PIPE
+
 from lepl import *
 
 
@@ -13,7 +15,7 @@ class NodeBase(Node):
         for child in self:
             if not isinstance(child, Node):
                 continue
-            if child.name == node:
+            if fnmatch(child.name, node):
                 nodes.append(child)
             else:
                 nodes.extend(child.find(node))
