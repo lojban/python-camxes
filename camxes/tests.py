@@ -23,6 +23,10 @@ def node_names(pt):
     assert pt[0].name == 'free'
     assert pt[1].name == 'sentence'
 
+@parse.test
+def find(pt):
+    assert pt.find('cmene')[0][0] == "camxes"
+
 
 morphology = Tests()
 

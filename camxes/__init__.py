@@ -6,8 +6,22 @@ from lepl import *
 JARFILE = path.join(path.dirname(__file__), 'camxes.jar')
 
 
+class NodeBase(Node):
+
+    def find(self, node):
+        nodes = []
+        for child in self:
+            if not isinstance(child, Node):
+                continue
+            if child.name == node:
+                nodes.append(child)
+            else:
+                nodes.extend(child.find(node))
+        return nodes
+
+
 def named_node(args):
-    node_type = type(str(args[0]), (Node,), {'name': args[0]})
+    node_type = type(str(args[0]), (NodeBase,), {'name': args[0]})
     return node_type(*args[1:])
 
 ident = Word(Letter() | Digit() | Literal("'"))
