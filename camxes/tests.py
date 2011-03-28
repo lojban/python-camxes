@@ -19,7 +19,7 @@ def index(pt):
     assert pt[1][1][0][0][0] == "cipra"
 
 @parse.test
-def leaf_names(pt):
+def node_names(pt):
     assert pt[0].name == 'free'
     assert pt[1].name == 'sentence'
 
