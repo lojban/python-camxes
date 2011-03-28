@@ -25,7 +25,7 @@ node += ( ( space & ident & ~Literal('=(')
 procs = {}
 
 def camxes(arg, input):
-    if arg not in procs or procs[arg] is None:
+    if arg not in procs or procs[arg].poll() is None:
         procs[arg] = Popen(['java', '-jar', JARFILE, arg],
                            stdout=PIPE, stdin=PIPE)
         procs[arg].stdout.readline()
