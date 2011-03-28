@@ -46,7 +46,7 @@ Nodes iterate over their children.
 >>> list(camxes.parse("coi rodo")[0][1])
 [CMAVO(...), CMAVO(...)]
 
-Nodes also knows their name.
+They also know their name.
 
 >>> camxes.parse("coi rodo")[0][1].name
 u'sumti5'
