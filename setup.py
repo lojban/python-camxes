@@ -7,4 +7,5 @@ setup(name='camxes',
       tests_require=['attest>=0.5'],
       test_loader='attest:auto_reporter.test_loader',
       test_suite='camxes.tests.all',
+      use_2to3=True,
      )

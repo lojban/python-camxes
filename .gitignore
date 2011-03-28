@@ -3,3 +3,4 @@
 .tox/
 *.egg/
 camxes.egg-info/
+build/

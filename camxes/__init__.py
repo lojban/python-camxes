@@ -24,8 +24,9 @@ def camxes(arg, input):
     if arg not in procs or procs[arg] is None:
         procs[arg] = Popen(['camxes', arg], stdout=PIPE, stdin=PIPE)
         procs[arg].stdout.readline()
-    procs[arg].stdin.write(input + '\n')
-    output = procs[arg].stdout.readline().rstrip('\n')
+    procs[arg].stdin.write((input + '\n').encode('utf-8'))
+    procs[arg].stdin.flush()
+    output = procs[arg].stdout.readline().decode('utf-8').rstrip('\n')
     return output
 
 def parse(text):
