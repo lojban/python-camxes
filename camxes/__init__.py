@@ -39,12 +39,3 @@ def parse(text):
 
 def isgrammatical(text):
     return camxes('-t', text) == text
-
-
-if __name__ == '__main__':
-    import sys
-    print parse(sys.argv[1])
-    print
-    if not isgrammatical(sys.argv[1]):
-        print 'not',
-    print 'grammatical:', sys.argv[1]
