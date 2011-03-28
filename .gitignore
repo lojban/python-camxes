@@ -4,3 +4,4 @@
 *.egg/
 camxes.egg-info/
 build/
+dist/
