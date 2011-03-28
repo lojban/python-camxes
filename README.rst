@@ -1,6 +1,17 @@
 Python interface to camxes
 ==========================
 
+To install, you need a Java runtime environment as a ``java`` command on
+your ``$PATH``, Python 2.6+ (including 3.1) and python-setuptools (or
+distribute). Then you can simply install this package from PyPI with
+``easy_install`` or ``pip``, or as a dependency in your own ``setup.py``.
+The parser itself is bundled with this package so you don't need to worry
+about that.
+
+::
+
+    easy_install camxes
+
 
 Parsing Lojban
 --------------
