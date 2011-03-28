@@ -24,6 +24,13 @@ def leaf_names(pt):
     assert pt[1].name == 'sentence'
 
 
+morphology = Tests()
+
+@morphology.test
+def non_lojban():
+    assert camxes.morphology("jbo")[0].name == 'nonLojbanWord'
+
+
 grammar = Tests()
 
 @grammar.test
@@ -35,4 +42,4 @@ def ungrammatical():
     assert not camxes.isgrammatical("coi '")
 
 
-all = Tests([parse, grammar])
+all = Tests([parse, morphology, grammar])

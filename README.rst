@@ -68,3 +68,20 @@ text
  `- BRIVLA
      `- gismu
          `- word u'mupli'
+
+
+Parsing only morphology
+-----------------------
+
+The ``morphology()`` function works much like ``parse()``.
+
+>>> print camxes.morphology("coi")
+text
+ `- CMAVO
+     `- COI
+         +- c
+         |   `- word u'c'
+         +- o
+         |   `- word u'o'
+         `- i
+             `- word u'i'

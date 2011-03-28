@@ -28,14 +28,22 @@ def camxes(arg, input):
     if arg not in procs or procs[arg].poll() is None:
         procs[arg] = Popen(['java', '-jar', JARFILE, arg],
                            stdout=PIPE, stdin=PIPE)
-        procs[arg].stdout.readline()
+        for _ in xrange(len(arg) - 1):
+            procs[arg].stdout.readline()
     procs[arg].stdin.write((input + '\n').encode('utf-8'))
     procs[arg].stdin.flush()
-    output = procs[arg].stdout.readline().decode('utf-8').rstrip('\n')
+    output = procs[arg].stdout.readline()
+    if 'M' in arg:
+        procs[arg].stdout.readline()
+        output = output.partition(b'Morphology pass: ')[2]
+    output = output.decode('utf-8').rstrip('\n')
     return output
 
 def parse(text):
     return node.parse(camxes('-f', text))[0]
+
+def morphology(text):
+    return node.parse(camxes('-Mf', text))[0]
 
 def isgrammatical(text):
     return camxes('-t', text) == text
