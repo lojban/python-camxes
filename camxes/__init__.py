@@ -61,5 +61,12 @@ def parse(text):
 def morphology(text):
     return node.parse(camxes('-Mf', text))[0]
 
+def find_affixes(compound):
+    affixes = []
+    rafsi = morphology(compound).find('lujvo')[0].find('*Rafsi')
+    for node in rafsi:
+        affixes.append(''.join(lerfu[0] for lerfu in node.find('?')))
+    return tuple(affixes)
+
 def isgrammatical(text):
     return camxes('-t', text) == text

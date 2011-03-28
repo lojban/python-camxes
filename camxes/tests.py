@@ -34,6 +34,11 @@ morphology = Tests()
 def non_lojban():
     assert camxes.morphology("jbo")[0].name == 'nonLojbanWord'
 
+@morphology.test
+def affixes():
+    assert camxes.find_affixes("ba'argau") == ("ba'ar", "gau")
+    assert camxes.find_affixes("ba'urtadji") == ("ba'ur", "tadj")
+
 
 grammar = Tests()
 
