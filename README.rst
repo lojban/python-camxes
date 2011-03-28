@@ -13,14 +13,14 @@ text
  `- free
      +- CMAVO
      |   `- COI
-     |       `- word u'coi'
+     |       `- u'coi'
      `- sumti5
          +- CMAVO
          |   `- PA
-         |       `- word u'ro'
+         |       `- u'ro'
          `- CMAVO
              `- KOhA
-                 `- word u'do'
+                 `- u'do'
 
 Child nodes can be accessed by name as attributes, giving a list of such
 nodes. If there are no child nodes with that name an exception is raised.
@@ -28,7 +28,7 @@ nodes. If there are no child nodes with that name an exception is raised.
 >>> print camxes.parse("coi rodo").free[0].sumti5[0].CMAVO[1]
 CMAVO
  `- KOhA
-     `- word u'do'
+     `- u'do'
 
 You can also access nodes by sequential position without giving the name.
 
@@ -36,10 +36,10 @@ You can also access nodes by sequential position without giving the name.
 sumti5
  +- CMAVO
  |   `- PA
- |       `- word u'ro'
+ |       `- u'ro'
  `- CMAVO
      `- KOhA
-         `- word u'do'
+         `- u'do'
 
 Nodes iterate over their children.
 
@@ -67,7 +67,7 @@ False
 text
  `- BRIVLA
      `- gismu
-         `- word u'mupli'
+         `- u'mupli'
 
 
 Parsing only morphology
@@ -80,8 +80,8 @@ text
  `- CMAVO
      `- COI
          +- c
-         |   `- word u'c'
+         |   `- u'c'
          +- o
-         |   `- word u'o'
+         |   `- u'o'
          `- i
-             `- word u'i'
+             `- u'i'

@@ -18,7 +18,7 @@ node += ( ( space & ident & ~Literal('=(')
           & ~Literal(')') & space
           > named_node
           )
-        | (ident > 'word')
+        | ident
         )
 
 

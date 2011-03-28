@@ -10,8 +10,8 @@ def parse_tree():
 
 @parse.test
 def ast(pt):
-    assert pt.free[0].CMAVO[0].COI[0].word[0] == "coi"
-    assert pt.sentence[0].bridiTail3[0].BRIVLA[0].gismu[0].word[0] == "cipra"
+    assert pt.free[0].CMAVO[0].COI[0][0] == "coi"
+    assert pt.sentence[0].bridiTail3[0].BRIVLA[0].gismu[0][0] == "cipra"
 
 @parse.test
 def index(pt):
