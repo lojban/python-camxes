@@ -10,27 +10,36 @@ JARFILE = path.join(path.dirname(__file__), 'camxes.jar')
 
 class NodeBase(Node):
 
-    def find(self, node=None):
-        nodes = []
-        for child in self:
-            if not isinstance(child, Node):
-                if node is None:
-                    nodes.append(child)
-                continue
-            if node is not None and fnmatch(child.name, node):
-                nodes.append(child)
-            else:
-                nodes.extend(child.find(node))
-        return nodes
-
-    def map(self, function=tuple):
-        result = [self.name]
+    def filter(self, predicate):
+        if predicate(self):
+            yield self
+            return
         for child in self:
             if isinstance(child, Node):
-                result.append(child.map(function))
-            else:
-                result.append(child)
-        return function(result)
+                for node in child.filter(predicate):
+                    yield node
+            elif predicate(child):
+                yield child
+
+    def find(self, name=None):
+        def predicate(node):
+            if isinstance(node, Node):
+                return name is not None and fnmatch(node.name, name)
+            return name is None
+        return list(self.filter(predicate))
+
+    def map(self, transformer):
+        return tuple([transformer(self)] +
+                     [child.map(transformer) if isinstance(child, Node)
+                                             else transformer(child)
+                                             for child in self])
+
+    def primitive(self):
+        def stringify(node):
+            if isinstance(node, Node):
+                return node.name
+            return node
+        return self.map(stringify)
 
     def __repr__(self):
         return '<{name} {{{text}}}>'.format(name=self.name,
