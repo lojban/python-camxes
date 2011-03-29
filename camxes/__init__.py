@@ -32,6 +32,10 @@ class NodeBase(Node):
                 result.append(child)
         return function(result)
 
+    def __repr__(self):
+        return '<{name} {{{text}}}>'.format(name=self.name,
+                                            text=' '.join(self.find()))
+
 
 def named_node(args):
     node_type = type(str(args[0]), (NodeBase,), {'name': args[0]})

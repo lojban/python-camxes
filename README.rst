@@ -55,7 +55,7 @@ sumti5
 Nodes iterate over their children.
 
 >>> list(camxes.parse("coi rodo")[0][1])
-[CMAVO(...), CMAVO(...)]
+[<CMAVO {ro}>, <CMAVO {do}>]
 
 They also know their name.
 

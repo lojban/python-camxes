@@ -40,6 +40,9 @@ def map(pt):
             ['CMAVO', ['PA', "ro"]],
             ['CMAVO', ['KOhA', "do"]]]
 
+@parse.test
+def node_repr(pt):
+    assert repr(pt.find('cmene')[0]) == "<cmene {camxes}>"
 
 morphology = Tests()
 
