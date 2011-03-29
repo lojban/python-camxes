@@ -154,5 +154,5 @@ transformer function that in turn takes a node. The transformation is then
 mapped recursively on all nodes and a nested tuple, similar to that of
 ``primitive()``, is returned.
 
->>> print camxes.parse("coi rodo").map(len)
+>>> camxes.parse("coi rodo").map(len)
 (1, (2, (1, (1, 3)), (2, (1, (1, 2)), (1, (1, 2)))))
