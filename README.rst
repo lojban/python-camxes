@@ -96,3 +96,63 @@ text
          |   `- u'o'
          `- i
              `- u'i'
+
+
+Advanced usage
+--------------
+
+Search for nodes with the ``find()`` method. It takes a ``name`` argument
+which wildcard-matches against node names. This operation recurses down
+each branch until a match is found, but does not search children of
+matching nodes.
+
+>>> camxes.parse("coi rodo").find('sumti*')
+[<sumti5 {ro do}>]
+
+``find()`` without a name does just that: find unnamed nodes, that is, leaf
+nodes. If you prefer, a more readable way to type that is
+``find(name=None)`` which means the same thing.
+
+>>> camxes.parse("coi rodo").find()
+[u'coi', u'ro', u'do']
+
+A generalization of ``find()`` is called ``filter()`` and takes a predicate
+function that decides if a node should be listed. ``filter()`` is a
+generator so we use ``list()`` here to see the results.
+
+>>> leafparent = lambda node: not isinstance(node[0], camxes.Node)
+>>> list(camxes.parse("coi rodo").filter(leafparent))
+[<COI {coi}>, <PA {ro}>, <KOhA {do}>]
+
+You can transform a node, recursively, into a tuple of strings, where the
+first item is the name of the node and the rest are the child nodes. This
+method is called ``primitive()`` and can be useful if you're serializing a
+parse tree to a more “dumb” format such as JSON.
+
+>>> from pprint import pprint
+>>> pprint(camxes.parse("coi rodo").primitive())
+(u'text',
+ (u'free',
+  (u'CMAVO', (u'COI', u'coi')),
+  (u'sumti5', (u'CMAVO', (u'PA', u'ro')), (u'CMAVO', (u'KOhA', u'do')))))
+
+>>> import json
+>>> print json.dumps(camxes.parse("coi").primitive(), indent=2)
+[
+  "text", 
+  [
+    "CMAVO", 
+    [
+      "COI", 
+      "coi"
+    ]
+  ]
+]
+
+The generalization of ``primitive()`` is called ``map()`` and takes a
+transformer function that in turn takes a node. The transformation is then
+mapped recursively on all nodes and a nested tuple, similar to that of
+``primitive()``, is returned.
+
+>>> print camxes.parse("coi rodo").map(len)
+(1, (2, (1, (1, 3)), (2, (1, (1, 2)), (1, (1, 2)))))
