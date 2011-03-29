@@ -10,12 +10,14 @@ JARFILE = path.join(path.dirname(__file__), 'camxes.jar')
 
 class NodeBase(Node):
 
-    def find(self, node):
+    def find(self, node=None):
         nodes = []
         for child in self:
             if not isinstance(child, Node):
+                if node is None:
+                    nodes.append(child)
                 continue
-            if fnmatch(child.name, node):
+            if node is not None and fnmatch(child.name, node):
                 nodes.append(child)
             else:
                 nodes.extend(child.find(node))

@@ -26,6 +26,7 @@ def node_names(pt):
 @parse.test
 def find(pt):
     assert pt.find('cmene')[0][0] == "camxes"
+    assert ' '.join(pt.find('sumti6')[0].find()) == "lo ka na cfila la camxes"
 
 @parse.test
 def map(pt):
