@@ -21,6 +21,15 @@ class NodeBase(Node):
                 nodes.extend(child.find(node))
         return nodes
 
+    def map(self, function=tuple):
+        result = [self.name]
+        for child in self:
+            if isinstance(child, Node):
+                result.append(child.map(function))
+            else:
+                result.append(child)
+        return function(result)
+
 
 def named_node(args):
     node_type = type(str(args[0]), (NodeBase,), {'name': args[0]})

@@ -27,6 +27,18 @@ def node_names(pt):
 def find(pt):
     assert pt.find('cmene')[0][0] == "camxes"
 
+@parse.test
+def map(pt):
+    node = pt.find('sumti5')[0]
+    assert node.map() == \
+        ('sumti5',
+            ('CMAVO', ('PA', "ro")),
+            ('CMAVO', ('KOhA', "do")))
+    assert node.map(list) == \
+        ['sumti5',
+            ['CMAVO', ['PA', "ro"]],
+            ['CMAVO', ['KOhA', "do"]]]
+
 
 morphology = Tests()
 
