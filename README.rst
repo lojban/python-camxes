@@ -117,13 +117,16 @@ text
 Advanced usage
 --------------
 
-Search for nodes with the ``find()`` method. It takes a ``name`` argument
-which wildcard-matches against node names. This operation recurses down
+Search for nodes with the ``find()`` method. It takes any number of arguments
+that are wildcard-matched against node names. This operation recurses down
 each branch until a match is found, but does not search children of
 matching nodes.
 
 >>> camxes.parse("coi rodo").find('sumti*')
 [<sumti5 {ro do}>]
+
+>>> camxes.parse("coi rodo").find('PA', 'KOhA')
+[<PA {ro}>, <KOhA {do}>]
 
 ``leafs()`` lists all leaf nodes, which should be the unicode lexemes.
 
