@@ -75,12 +75,12 @@ def affixes():
     }
 
     for compound, affixes in compounds.iteritems():
-        assert camxes.find_affixes(compound) == affixes
+        assert camxes.decompose(compound) == affixes
 
     not_compounds = ("camxes", "coi", "donri", "sfe'ero")
     for noncompound in not_compounds:
         with raises(ValueError):
-            camxes.find_affixes(noncompound)
+            camxes.decompose(noncompound)
 
 
 grammar = Tests()

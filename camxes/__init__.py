@@ -90,7 +90,7 @@ def islerfu(node):
         return
     return node.name in ('consonant', 'vowel', 'h', 'diphthong')
 
-def find_affixes(compound):
+def decompose(compound):
     root = morphology(compound)
     nodes = (root, root[0], root[0][0])
     if any(len(node) != 1 for node in nodes) or \
