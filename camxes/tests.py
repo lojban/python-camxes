@@ -1,4 +1,4 @@
-from attest import Tests, assert_hook
+from attest import Tests, assert_hook, raises
 import camxes
 
 
@@ -64,8 +64,23 @@ def non_lojban():
 
 @morphology.test
 def affixes():
-    assert camxes.find_affixes("ba'argau") == ("ba'ar", "gau")
-    assert camxes.find_affixes("ba'urtadji") == ("ba'ur", "tadj")
+    compounds = {
+        "ba'argau": ("ba'a", "gau"),
+        "ba'armo'a": ("ba'a", "mo'a"),
+        "ba'ostu": ("ba'o", "stu"),
+        "ba'urtadji": ("ba'u", "tadj"),
+        "backemselrerkru": ("bac", "kem", "sel", "rer", "kru"),
+        "backla": ("bac", "kla"),
+        "bacycripu": ("bac", "crip"),
+    }
+
+    for compound, affixes in compounds.iteritems():
+        assert camxes.find_affixes(compound) == affixes
+
+    not_compounds = ("camxes", "coi", "donri", "sfe'ero")
+    for noncompound in not_compounds:
+        with raises(ValueError):
+            camxes.find_affixes(noncompound)
 
 
 grammar = Tests()

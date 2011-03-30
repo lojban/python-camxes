@@ -85,12 +85,21 @@ def parse(text):
 def morphology(text):
     return node.parse(camxes('-Mf', text))[0]
 
+def islerfu(node):
+    if not isinstance(node, Node):
+        return
+    return node.name in ('consonant', 'vowel', 'h', 'diphthong')
+
 def find_affixes(compound):
-    affixes = []
-    rafsi = morphology(compound).find('lujvo')[0].find('*Rafsi')
-    for node in rafsi:
-        affixes.append(''.join(lerfu[0] for lerfu in node.find('?')))
-    return tuple(affixes)
+    root = morphology(compound)
+    nodes = (root, root[0], root[0][0])
+    if any(len(node) != 1 for node in nodes) or \
+       [node.name for node in nodes] != ['text', 'BRIVLA', 'lujvo']:
+        raise ValueError('invalid compound {0!r}'.format(compound))
+    rafsi = root[0][0].find('*Rafsi')
+    return tuple(''.join(''.join(lerfu.find())
+                         for lerfu in node.filter(islerfu))
+                 for node in rafsi)
 
 def isgrammatical(text):
     return camxes('-t', text) == text
