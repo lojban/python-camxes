@@ -21,11 +21,13 @@ class NodeBase(Node):
             elif predicate(child):
                 yield child
 
-    def find(self, name=None):
+    def leafs(self):
+        return list(self.filter(lambda node: not isinstance(node, Node)))
+
+    def find(self, *names):
         def predicate(node):
-            if isinstance(node, Node):
-                return name is not None and fnmatch(node.name, name)
-            return name is None
+            return isinstance(node, Node) and \
+                   any(fnmatch(node.name, name) for name in names)
         return list(self.filter(predicate))
 
     def map(self, transformer):
@@ -43,7 +45,7 @@ class NodeBase(Node):
 
     def __repr__(self):
         return '<{name} {{{text}}}>'.format(name=self.name,
-                                            text=' '.join(self.find()))
+                                            text=' '.join(self.leafs()))
 
 
 def named_node(args):
@@ -85,11 +87,6 @@ def parse(text):
 def morphology(text):
     return node.parse(camxes('-Mf', text))[0]
 
-def islerfu(node):
-    if not isinstance(node, Node):
-        return
-    return node.name in ('consonant', 'vowel', 'h', 'diphthong')
-
 def decompose(compound):
     root = morphology(compound)
     nodes = (root, root[0], root[0][0])
@@ -97,8 +94,9 @@ def decompose(compound):
        [node.name for node in nodes] != ['text', 'BRIVLA', 'lujvo']:
         raise ValueError('invalid compound {0!r}'.format(compound))
     rafsi = root[0][0].find('*Rafsi')
-    return tuple(''.join(''.join(lerfu.find())
-                         for lerfu in node.filter(islerfu))
+    return tuple(''.join(''.join(lerfu.leafs())
+                         for lerfu in node.find('consonant', 'vowel',
+                                                'h', 'diphthong'))
                  for node in rafsi)
 
 def isgrammatical(text):

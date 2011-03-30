@@ -125,16 +125,14 @@ matching nodes.
 >>> camxes.parse("coi rodo").find('sumti*')
 [<sumti5 {ro do}>]
 
-``find()`` without a name does just that: find unnamed nodes, that is, leaf
-nodes. If you prefer, a more readable way to type that is
-``find(name=None)`` which means the same thing.
+``leafs()`` lists all leaf nodes, which should be the unicode lexemes.
 
->>> camxes.parse("coi rodo").find()
+>>> camxes.parse("coi rodo").leafs()
 [u'coi', u'ro', u'do']
 
-A generalization of ``find()`` is called ``filter()`` and takes a predicate
-function that decides if a node should be listed. ``filter()`` is a
-generator so we use ``list()`` here to see the results.
+A generalization of ``find()`` and ``leafs()`` is called ``filter()`` and
+takes a predicate function that decides if a node should be listed.
+``filter()`` is a generator so we use ``list()`` here to see the results.
 
 >>> leafparent = lambda node: not isinstance(node[0], camxes.Node)
 >>> list(camxes.parse("coi rodo").filter(leafparent))
