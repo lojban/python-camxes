@@ -84,7 +84,7 @@ text
 Deconstructing compound words into affixes
 ------------------------------------------
 
-``decompose()`` gives you the affixes of a compound.
+``decompose()`` gives you the affixes and hyphens of a compound.
 
 >>> camxes.decompose("genturfa'i")
 (u'gen', u'tur', u"fa'i")

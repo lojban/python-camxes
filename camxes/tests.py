@@ -69,13 +69,13 @@ def non_lojban():
 @morphology.test
 def affixes():
     compounds = {
-        "ba'argau": ("ba'a", "gau"),
-        "ba'armo'a": ("ba'a", "mo'a"),
+        "ba'argau": ("ba'a", "r", "gau"),
+        "ba'armo'a": ("ba'a", "r", "mo'a"),
         "ba'ostu": ("ba'o", "stu"),
-        "ba'urtadji": ("ba'u", "tadj"),
+        "ba'urtadji": ("ba'u", "r", "tadj"),
         "backemselrerkru": ("bac", "kem", "sel", "rer", "kru"),
         "backla": ("bac", "kla"),
-        "bacycripu": ("bac", "crip"),
+        "bacycripu": ("bac", "y", "crip"),
     }
 
     for compound, affixes in compounds.iteritems():

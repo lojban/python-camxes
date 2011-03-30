@@ -93,11 +93,14 @@ def decompose(compound):
     if any(len(node) != 1 for node in nodes) or \
        [node.name for node in nodes] != ['text', 'BRIVLA', 'lujvo']:
         raise ValueError('invalid compound {0!r}'.format(compound))
-    rafsi = root[0][0].find('*Rafsi')
-    return tuple(''.join(''.join(lerfu.leafs())
-                         for lerfu in node.find('consonant', 'vowel',
-                                                'h', 'diphthong'))
-                 for node in rafsi)
+    rafsi = root.find('*Rafsi')
+    parts = []
+    for node in rafsi:
+        parts.append(''.join(''.join(lerfu.leafs())
+            for lerfu in node.find('consonant', 'vowel', 'h', 'diphthong')))
+        for glue in node.find('rHyphen', 'y'):
+            parts.extend(glue.leafs())
+    return tuple(parts)
 
 def isgrammatical(text):
     return camxes('-t', text) == text
