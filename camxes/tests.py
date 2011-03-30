@@ -33,6 +33,9 @@ def filter(pt):
 def find(pt):
     assert pt.find('cmene')[0][0] == "camxes"
     assert pt.find('COI', 'PA') == pt.find('COI') + pt.find('PA')
+    assert pt['cmene'] is pt.find('cmene')[0]
+    with raises(KeyError):
+        pt['']
 
 @parse.test
 def leafs(pt):

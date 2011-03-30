@@ -30,6 +30,14 @@ class NodeBase(Node):
                    any(fnmatch(node.name, name) for name in names)
         return list(self.filter(predicate))
 
+    def __getitem__(self, index):
+        if isinstance(index, basestring):
+            try:
+                return self.find(index)[0]
+            except IndexError:
+                raise KeyError(index)
+        return Node.__getitem__(self, index)
+
     def map(self, transformer):
         return tuple([transformer(self)] +
                      [child.map(transformer) if isinstance(child, Node)

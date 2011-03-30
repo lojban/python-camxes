@@ -128,6 +128,11 @@ matching nodes.
 >>> camxes.parse("coi rodo").find('PA', 'KOhA')
 [<PA {ro}>, <KOhA {do}>]
 
+Key access on nodes is a shortcut for the first match of a find.
+
+>>> camxes.parse("la camxes genturfa'i fi la lojban")['cmene']
+<cmene {camxes}>
+
 ``leafs()`` lists all leaf nodes, which should be the unicode lexemes.
 
 >>> camxes.parse("coi rodo").leafs()
