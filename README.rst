@@ -81,6 +81,22 @@ text
          `- u'mupli'
 
 
+Deconstructing compound words into affixes
+------------------------------------------
+
+``decompose()`` gives you the affixes of a compound.
+
+>>> camxes.decompose("genturfa'i")
+(u'gen', u'tur', u"fa'i")
+
+It will complain for input that is not a single, valid compound.
+
+>>> camxes.decompose("camxes")
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: invalid compound 'camxes'
+
+
 Parsing only morphology
 -----------------------
 
