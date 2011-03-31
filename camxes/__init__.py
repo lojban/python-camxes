@@ -30,6 +30,14 @@ class NodeBase(Node):
                    any(fnmatch(node.name, name) for name in names)
         return list(self.filter(predicate))
 
+    def branches(self, *leafs):
+        leafs = list(leafs)
+        def predicate(node):
+            if isinstance(node, Node):
+                return any(isinstance(child, Node) and child.leafs() == leafs
+                           for child in node)
+        return list(self.filter(predicate))
+
     def __getitem__(self, index):
         if isinstance(index, basestring):
             try:

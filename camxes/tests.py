@@ -42,6 +42,11 @@ def leafs(pt):
     assert ' '.join(pt.find('sumti6')[0].leafs()) == "lo ka na cfila la camxes"
 
 @parse.test
+def branches(pt):
+    assert pt.branches("lo") == pt.find('sumti6')
+    assert pt.branches("ro", "do") == pt.find('free')
+
+@parse.test
 def map(pt):
     node = pt.find('sumti5')[0]
     def swapcase(node):
