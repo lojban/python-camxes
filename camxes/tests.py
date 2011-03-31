@@ -39,7 +39,7 @@ def find(pt):
 
 @parse.test
 def leafs(pt):
-    assert ' '.join(pt.find('sumti6')[0].leafs()) == "lo ka na cfila la camxes"
+    assert ' '.join(pt.find('sumti6')[0].leafs) == "lo ka na cfila la camxes"
 
 @parse.test
 def branches(pt):
@@ -59,7 +59,7 @@ def map(pt):
 @parse.test
 def primitive(pt):
     node = pt.find('sumti5')[0]
-    assert node.primitive() == \
+    assert node.primitive == \
         ('sumti5',
             ('CMAVO', ('PA', "ro")),
             ('CMAVO', ('KOhA', "do")))
@@ -77,8 +77,8 @@ def parse_trees_from_outer_space():
 
 @spaces.test
 def space_leafs(nospaces, withspaces):
-    assert nospaces.leafs() == ["coi", "ro", "do"]
-    assert withspaces.leafs() == ["coi", " ", "ro", "do", "!"]
+    assert nospaces.leafs == ("coi", "ro", "do")
+    assert withspaces.leafs == ("coi", " ", "ro", "do", "!")
 
 @spaces.test
 def lojban(nospaces, withspaces):

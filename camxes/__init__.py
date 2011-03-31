@@ -21,22 +21,22 @@ class NodeBase(Node):
             elif predicate(child):
                 yield child
 
+    @property
     def leafs(self):
-        return list(self.filter(lambda node: not isinstance(node, Node)))
+        return tuple(self.filter(lambda node: not isinstance(node, Node)))
 
     def find(self, *names):
         def predicate(node):
             return isinstance(node, Node) and \
                    any(fnmatch(node.name, name) for name in names)
-        return list(self.filter(predicate))
+        return tuple(self.filter(predicate))
 
     def branches(self, *leafs):
-        leafs = list(leafs)
         def predicate(node):
             if isinstance(node, Node):
-                return any(isinstance(child, Node) and child.leafs() == leafs
+                return any(isinstance(child, Node) and child.leafs == leafs
                            for child in node)
-        return list(self.filter(predicate))
+        return tuple(self.filter(predicate))
 
     def __getitem__(self, index):
         if isinstance(index, basestring):
@@ -55,8 +55,9 @@ class NodeBase(Node):
     @property
     def lojban(self):
         sep = '' if self.find('spaces') else ' '
-        return sep.join(self.leafs())
+        return sep.join(self.leafs)
 
+    @property
     def primitive(self):
         def stringify(node):
             if isinstance(node, Node):
@@ -66,7 +67,7 @@ class NodeBase(Node):
 
     def __repr__(self):
         return '<{name} {{{text}}}>'.format(name=self.name,
-                                            text=' '.join(self.leafs()))
+                                            text=' '.join(self.leafs))
 
 
 def named_node(args):
@@ -118,10 +119,10 @@ def decompose(compound):
     rafsi = root.find('*Rafsi')
     parts = []
     for node in rafsi:
-        parts.append(''.join(''.join(lerfu.leafs())
+        parts.append(''.join(''.join(lerfu.leafs)
             for lerfu in node.find('consonant', 'vowel', 'h', 'diphthong')))
         for glue in node.find('rHyphen', 'y'):
-            parts.extend(glue.leafs())
+            parts.extend(glue.leafs)
     return tuple(parts)
 
 def isgrammatical(text):
