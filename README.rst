@@ -33,6 +33,17 @@ text
              `- KOhA
                  `- u'do'
 
+Turn a tree back into Lojban with the ``lojban`` property.
+
+>>> camxes.parse("coi rodo!").lojban
+u'coi ro do'
+
+This joins the leaf nodes with a space, but you can preserve spaces and
+punctuation by passing ``spaces=True`` to ``parse()``.
+
+>>> camxes.parse("coi rodo!", spaces=True).lojban
+u'coi rodo!'
+
 Child nodes can be accessed by name as attributes, giving a list of such
 nodes. If there are no child nodes with that name an exception is raised.
 
