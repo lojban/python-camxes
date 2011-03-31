@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='camxes',
-    version='0.1',
+    version='0.2',
     description='Python interface to camxes.',
     long_description=open('README.rst').read(),
 
@@ -13,10 +13,10 @@ setup(
 
     packages=find_packages(),
     include_package_data=True,
-    install_requires=['lepl'],
+    install_requires=['LEPL'],
     zip_safe=False,
 
-    tests_require=['attest>=0.5'],
+    tests_require=['Attest>=0.5'],
     test_loader='attest:auto_reporter.test_loader',
     test_suite='camxes.tests.all',
     use_2to3=True,
