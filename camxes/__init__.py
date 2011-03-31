@@ -68,16 +68,15 @@ def named_node(args):
     node_type = type(str(args[0]), (NodeBase,), {'name': args[0]})
     return node_type(*args[1:])
 
-ident = Word(Letter() | Digit() | Literal("'"))
+name  = Word(Letter() | Digit())
+token = Add(AnyBut(')')[1:])
 space = ~Literal(' ')
 node  = Delayed()
-node += ( ( space & ident & ~Literal('=(')
-          & space & node[1:] & space
-          & ~Literal(')') & space
-          > named_node
-          )
-        | ident
-        )
+node += ( space & name & ~Literal('=(')
+        & space & node[1:] & space
+        & ~Literal(')') & space
+        > named_node
+        ) | token
 
 
 procs = {}
