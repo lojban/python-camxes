@@ -114,7 +114,7 @@ text
              `- u'i'
 
 
-Advanced usage
+Tree traversal
 --------------
 
 Search for nodes with the ``find()`` method. It takes any number of arguments
@@ -138,13 +138,28 @@ Key access on nodes is a shortcut for the first match of a find.
 >>> camxes.parse("coi rodo").leafs()
 [u'coi', u'ro', u'do']
 
-A generalization of ``find()`` and ``leafs()`` is called ``filter()`` and
-takes a predicate function that decides if a node should be listed.
-``filter()`` is a generator so we use ``list()`` here to see the results.
+The ``branches()`` method finds the parents of nodes whose leafs match the
+arguments. This lets you search for the branches a sequence of lexemes
+belong to.
+
+>>> camxes.parse("lo ninmu cu klama lo tcadu").branches("lo")
+[<sumti6 {lo ninmu}>, <sumti6 {lo tcadu}>]
+>>> camxes.parse("lo ninmu cu klama lo tcadu").branches("ninmu")
+[<sumti6 {lo ninmu}>]
+>>> camxes.parse("lo ninmu cu klama lo tcadu").branches("klama", "lo", "tcadu")
+[<sentence {lo ninmu cu klama lo tcadu}>]
+
+A generalization of these methods is called ``filter()`` and takes a
+predicate function that decides if a node should be listed. ``filter()`` is
+a generator so we use ``list()`` here to see the results.
 
 >>> leafparent = lambda node: not isinstance(node[0], camxes.Node)
 >>> list(camxes.parse("coi rodo").filter(leafparent))
 [<COI {coi}>, <PA {ro}>, <KOhA {do}>]
+
+
+Tree transformation
+-------------------
 
 You can transform a node, recursively, into a tuple of strings, where the
 first item is the name of the node and the rest are the child nodes. This
