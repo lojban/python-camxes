@@ -9,6 +9,12 @@ def parse_tree():
     yield camxes.parse("coi rodo mi cipra loka na cfila la camxes")
 
 @parse.test
+def spaces():
+    assert camxes.parse("coi rodo!").leafs() == ["coi", "ro", "do"]
+    assert camxes.parse("coi rodo!", spaces=True).leafs() == \
+        ["coi", " ", "ro", "do", "!"]
+
+@parse.test
 def ast(pt):
     assert pt.free[0].CMAVO[0].COI[0][0] == "coi"
     assert pt.sentence[0].bridiTail3[0].BRIVLA[0].gismu[0][0] == "cipra"

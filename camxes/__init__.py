@@ -96,7 +96,9 @@ def camxes(arg, input):
     output = output.decode('utf-8').rstrip('\n')
     return output
 
-def parse(text):
+def parse(text, spaces=False):
+    if spaces:
+        return node.parse(camxes('-fs', text))[0]
     return node.parse(camxes('-f', text))[0]
 
 def morphology(text):
