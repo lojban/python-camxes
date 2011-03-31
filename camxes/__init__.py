@@ -52,6 +52,11 @@ class NodeBase(Node):
                                              else transformer(child)
                                              for child in self])
 
+    @property
+    def lojban(self):
+        sep = '' if self.find('spaces') else ' '
+        return sep.join(self.leafs())
+
     def primitive(self):
         def stringify(node):
             if isinstance(node, Node):

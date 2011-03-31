@@ -9,12 +9,6 @@ def parse_tree():
     yield camxes.parse("coi rodo mi cipra loka na cfila la camxes")
 
 @parse.test
-def spaces():
-    assert camxes.parse("coi rodo!").leafs() == ["coi", "ro", "do"]
-    assert camxes.parse("coi rodo!", spaces=True).leafs() == \
-        ["coi", " ", "ro", "do", "!"]
-
-@parse.test
 def ast(pt):
     assert pt.free[0].CMAVO[0].COI[0][0] == "coi"
     assert pt.sentence[0].bridiTail3[0].BRIVLA[0].gismu[0][0] == "cipra"
@@ -74,6 +68,24 @@ def primitive(pt):
 def node_repr(pt):
     assert repr(pt.find('cmene')[0]) == "<cmene {camxes}>"
 
+
+spaces = Tests()
+
+@spaces.context
+def parse_trees_from_outer_space():
+    yield camxes.parse("coi rodo!"), camxes.parse("coi rodo!", spaces=True)
+
+@spaces.test
+def space_leafs(nospaces, withspaces):
+    assert nospaces.leafs() == ["coi", "ro", "do"]
+    assert withspaces.leafs() == ["coi", " ", "ro", "do", "!"]
+
+@spaces.test
+def lojban(nospaces, withspaces):
+    assert nospaces.lojban == "coi ro do"
+    assert withspaces.lojban == "coi rodo!"
+
+
 morphology = Tests()
 
 @morphology.test
@@ -112,4 +124,4 @@ def ungrammatical():
     assert not camxes.isgrammatical("coi '")
 
 
-all = Tests([parse, morphology, grammar])
+all = Tests([parse, spaces, morphology, grammar])
