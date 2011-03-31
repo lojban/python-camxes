@@ -54,7 +54,7 @@ class NodeBase(Node):
 
     @property
     def lojban(self):
-        sep = '' if self.find('spaces') else ' '
+        sep = '' if self.find('*[Ss]paces') else ' '
         return sep.join(self.leafs)
 
     @property
