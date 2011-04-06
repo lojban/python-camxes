@@ -8,6 +8,13 @@ from lepl import *
 JARFILE = path.join(path.dirname(__file__), 'camxes.jar')
 
 
+def isbranch(node):
+    return isinstance(node, Node)
+
+def isleaf(node):
+    return not isbranch(node)
+
+
 class NodeBase(Node):
 
     def filter(self, predicate):
@@ -15,7 +22,7 @@ class NodeBase(Node):
             yield self
             return
         for child in self:
-            if isinstance(child, Node):
+            if isbranch(child):
                 for node in child.filter(predicate):
                     yield node
             elif predicate(child):
@@ -23,18 +30,18 @@ class NodeBase(Node):
 
     @property
     def leafs(self):
-        return tuple(self.filter(lambda node: not isinstance(node, Node)))
+        return tuple(self.filter(isleaf))
 
     def find(self, *names):
         def predicate(node):
-            return isinstance(node, Node) and \
+            return isbranch(node) and \
                    any(fnmatch(node.name, name) for name in names)
         return tuple(self.filter(predicate))
 
     def branches(self, *leafs):
         def predicate(node):
-            if isinstance(node, Node):
-                return any(isinstance(child, Node) and child.leafs == leafs
+            if isbranch(node):
+                return any(isbranch(child) and child.leafs == leafs
                            for child in node)
         return tuple(self.filter(predicate))
 
@@ -48,7 +55,7 @@ class NodeBase(Node):
 
     def map(self, transformer):
         return tuple([transformer(self)] +
-                     [child.map(transformer) if isinstance(child, Node)
+                     [child.map(transformer) if isbranch(child)
                                              else transformer(child)
                                              for child in self])
 
@@ -60,7 +67,7 @@ class NodeBase(Node):
     @property
     def primitive(self):
         def stringify(node):
-            if isinstance(node, Node):
+            if isbranch(node):
                 return node.name
             return node
         return self.map(stringify)
