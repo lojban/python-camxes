@@ -1,5 +1,7 @@
+# coding: utf-8
 from os import path
 from fnmatch import fnmatch
+from itertools import cycle
 from subprocess import Popen, PIPE
 
 from lepl import *
@@ -63,6 +65,16 @@ class NodeBase(Node):
     def lojban(self):
         sep = '' if self.find('*[Ss]paces') else ' '
         return sep.join(self.leafs)
+
+    def brackets(self, pairs=u'() [] <> {} «»'):
+        cycler = cycle(pairs.split())
+        def bracketize(node):
+            if len(node.leafs) == 1:
+                return node.leafs[0]
+            open, close = next(cycler)
+            return open + ' '.join(bracketize(child)
+                                   for child in node) + close
+        return bracketize(self)
 
     @property
     def primitive(self):

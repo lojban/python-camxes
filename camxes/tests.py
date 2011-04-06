@@ -1,3 +1,4 @@
+# coding: utf-8
 from attest import Tests, assert_hook, raises
 import camxes
 
@@ -63,6 +64,10 @@ def primitive(pt):
         ('sumti5',
             ('CMAVO', ('PA', "ro")),
             ('CMAVO', ('KOhA', "do")))
+
+@parse.test
+def brackets(pt):
+    assert pt['sumti6'].brackets() == u'(lo [ka <{na cfila} «la camxes»>])'
 
 @parse.test
 def node_repr(pt):
