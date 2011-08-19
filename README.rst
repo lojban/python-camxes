@@ -1,4 +1,4 @@
-Python interface to camxes
+Python Interface to Camxes
 ==========================
 
 To install, you need a Java runtime environment as a ``java`` command on
@@ -74,7 +74,7 @@ They also know their name.
 u'sumti5'
 
 
-Verifying grammatical validity
+Verifying Grammatical Validity
 ------------------------------
 
 ``parse()`` is able to parse some ungrammatical input by processing as much
@@ -92,7 +92,7 @@ text
          `- u'mupli'
 
 
-Deconstructing compound words into affixes
+Deconstructing Compound Words into Affixes
 ------------------------------------------
 
 ``decompose()`` gives you the affixes and hyphens of a compound.
@@ -108,7 +108,7 @@ Traceback (most recent call last):
 ValueError: invalid compound 'camxes'
 
 
-Parsing only morphology
+Parsing Only Morphology
 -----------------------
 
 The ``morphology()`` function works much like ``parse()``.
@@ -125,7 +125,7 @@ text
              `- u'i'
 
 
-Tree traversal
+Tree Traversal
 --------------
 
 Search for nodes with the ``find()`` method. It takes any number of arguments
@@ -134,74 +134,73 @@ each branch until a match is found, but does not search children of
 matching nodes.
 
 >>> camxes.parse("coi rodo").find('sumti*')
-(<sumti5 {ro do}>,)
+[<sumti5 {ro do}>]
 
 >>> camxes.parse("coi rodo").find('PA', 'KOhA')
-(<PA {ro}>, <KOhA {do}>)
+[<PA {ro}>, <KOhA {do}>]
 
 Key access on nodes is a shortcut for the first match of a find.
 
 >>> camxes.parse("la camxes genturfa'i fi la lojban")['cmene']
 <cmene {camxes}>
 
-The ``leafs`` property is a tuple of all leaf nodes, which should be the
+The ``leafs`` property is a list of all leaf nodes, which should be the
 unicode lexemes.
 
 >>> camxes.parse("coi rodo").leafs
-(u'coi', u'ro', u'do')
+[u'coi', u'ro', u'do']
 
 The ``branches()`` method finds the parents of nodes whose leafs match the
 arguments. This lets you search for the branches a sequence of lexemes
 belong to.
 
 >>> camxes.parse("lo ninmu cu klama lo tcadu").branches("lo")
-(<sumti6 {lo ninmu}>, <sumti6 {lo tcadu}>)
+[<sumti6 {lo ninmu}>, <sumti6 {lo tcadu}>]
 >>> camxes.parse("lo ninmu cu klama lo tcadu").branches("ninmu")
-(<sumti6 {lo ninmu}>,)
+[<sumti6 {lo ninmu}>]
 >>> camxes.parse("lo ninmu cu klama lo tcadu").branches("klama", "lo", "tcadu")
-(<sentence {lo ninmu cu klama lo tcadu}>,)
+[<sentence {lo ninmu cu klama lo tcadu}>]
 
 A generalization of these is called ``filter()`` and takes a predicate
 function that decides if a node should be listed. ``filter()`` is a
 generator so we use ``list()`` here to see the results.
 
->>> leafparent = lambda node: not isinstance(node[0], camxes.Node)
+>>> leafparent = lambda node: camxes.isleaf(node[0])
 >>> list(camxes.parse("coi rodo").filter(leafparent))
 [<COI {coi}>, <PA {ro}>, <KOhA {do}>]
 
 
-Tree transformation
--------------------
+Primitive Trees
+---------------
 
-You can transform a node, recursively, into a tuple of strings, where the
-first item is the name of the node and the rest are the child nodes. This
-property is called ``primitive`` and can be useful if you're serializing a
-parse tree to a more “dumb” format such as JSON.
+Nodes have a primitive representation of a tuple where the first element is
+the name of the node and the second a list of children. This property is
+called ``primitive`` and can be useful if you're serializing a parse tree
+to a “dumb” format such as JSON.
 
 >>> from pprint import pprint
 >>> pprint(camxes.parse("coi rodo").primitive)
 (u'text',
- (u'free',
-  (u'CMAVO', (u'COI', u'coi')),
-  (u'sumti5', (u'CMAVO', (u'PA', u'ro')), (u'CMAVO', (u'KOhA', u'do')))))
+ [(u'free',
+   [(u'CMAVO', [(u'COI', [u'coi'])]),
+    (u'sumti5',
+     [(u'CMAVO', [(u'PA', [u'ro'])]), (u'CMAVO', [(u'KOhA', [u'do'])])])])])
 
 >>> import json
 >>> print json.dumps(camxes.parse("coi").primitive, indent=2)
 [
   "text", 
   [
-    "CMAVO", 
     [
-      "COI", 
-      "coi"
+      "CMAVO", 
+      [
+        [
+          "COI", 
+          [
+            "coi"
+          ]
+        ]
+      ]
     ]
   ]
 ]
-
-The generalization of ``primitive`` is called ``map()`` and takes a
-transformer function that in turn takes a node. The transformation is then
-mapped recursively on all nodes and a nested tuple, similar to that of
-``primitive``, is returned.
-
->>> camxes.parse("coi rodo").map(len)
-(1, (2, (1, (1, 3)), (2, (1, (1, 2)), (1, (1, 2)))))

@@ -32,20 +32,21 @@ class NodeBase(Node):
 
     @property
     def leafs(self):
-        return tuple(self.filter(isleaf))
+        return list(self.filter(isleaf))
 
     def find(self, *names):
         def predicate(node):
             return isbranch(node) and \
                    any(fnmatch(node.name, name) for name in names)
-        return tuple(self.filter(predicate))
+        return list(self.filter(predicate))
 
     def branches(self, *leafs):
+        leafs = list(leafs)
         def predicate(node):
             if isbranch(node):
                 return any(isbranch(child) and child.leafs == leafs
                            for child in node)
-        return tuple(self.filter(predicate))
+        return list(self.filter(predicate))
 
     def __getitem__(self, index):
         if isinstance(index, basestring):
@@ -54,12 +55,6 @@ class NodeBase(Node):
             except IndexError:
                 raise KeyError(index)
         return Node.__getitem__(self, index)
-
-    def map(self, transformer):
-        return tuple([transformer(self)] +
-                     [child.map(transformer) if isbranch(child)
-                                             else transformer(child)
-                                             for child in self])
 
     @property
     def lojban(self):
@@ -78,15 +73,12 @@ class NodeBase(Node):
 
     @property
     def primitive(self):
-        def stringify(node):
-            if isbranch(node):
-                return node.name
-            return node
-        return self.map(stringify)
+        return self.name, [child.primitive if isbranch(child) else child
+                           for child in self]
 
     def __repr__(self):
-        return '<{name} {{{text}}}>'.format(name=self.name,
-                                            text=' '.join(self.leafs))
+        return '<{name} {{{lojban}}}>'.format(name=self.name,
+                                              lojban=self.lojban)
 
 
 def named_node(args):

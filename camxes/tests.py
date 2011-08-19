@@ -48,22 +48,12 @@ def branches(pt):
     assert pt.branches("ro", "do") == pt.find('free')
 
 @parse.test
-def map(pt):
-    node = pt.find('sumti5')[0]
-    def swapcase(node):
-        return getattr(node, 'name', node).swapcase()
-    assert node.map(swapcase) == \
-        ('SUMTI5',
-            ('cmavo', ('pa', "RO")),
-            ('cmavo', ('koHa', "DO")))
-
-@parse.test
 def primitive(pt):
     node = pt.find('sumti5')[0]
     assert node.primitive == \
         ('sumti5',
-            ('CMAVO', ('PA', "ro")),
-            ('CMAVO', ('KOhA', "do")))
+            [('CMAVO', [('PA', ["ro"])]),
+             ('CMAVO', [('KOhA', ["do"])])])
 
 @parse.test
 def brackets(pt):
@@ -82,8 +72,8 @@ def parse_trees_from_outer_space():
 
 @spaces.test
 def space_leafs(nospaces, withspaces):
-    assert nospaces.leafs == ("coi", "ro", "do")
-    assert withspaces.leafs == ("coi", " ", "ro", "do", "!")
+    assert nospaces.leafs == ["coi", "ro", "do"]
+    assert withspaces.leafs == ["coi", " ", "ro", "do", "!"]
 
 @spaces.test
 def lojban(nospaces, withspaces):
