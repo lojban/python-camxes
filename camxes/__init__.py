@@ -1,5 +1,5 @@
 # coding: utf-8
-from os import path
+from pkg_resources import resource_filename
 from fnmatch import fnmatch
 from itertools import cycle
 from subprocess import Popen, PIPE
@@ -7,7 +7,7 @@ from subprocess import Popen, PIPE
 from lepl import *
 
 
-JARFILE = path.join(path.dirname(__file__), 'camxes.jar')
+JARFILE = resource_filename(__name__, 'camxes.jar')
 
 
 def isbranch(node):

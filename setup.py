@@ -14,7 +14,6 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=['LEPL'],
-    zip_safe=False,
 
     tests_require=['Attest>=0.5'],
     test_loader='attest:auto_reporter.test_loader',
