@@ -170,6 +170,19 @@ generator so we use ``list()`` here to see the results.
 [<COI {coi}>, <PA {ro}>, <KOhA {do}>]
 
 
+Visualizing Grammar in Plain Text
+---------------------------------
+
+You can get a plain-text representation of a parse tree similar to what
+jbofi'e produces, using the ``brackets()`` method. The optional argument is
+a space-separated string of bracket pairs to cycle through:
+
+>>> camxes.parse("coi rodo").brackets()
+u'([coi <ro do>])'
+>>> camxes.parse("coi rodo").brackets(u'{} !?')
+u'{!coi {ro do}?}'
+
+
 Primitive Trees
 ---------------
 
