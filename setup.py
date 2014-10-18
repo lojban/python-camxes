@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='camxes',
-    version='0.2',
+    version='0.3',
     description='Python interface to camxes.',
     long_description=open('README.rst').read(),
 
